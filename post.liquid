@@ -1,0 +1,147 @@
+{%- comment -%}
+██╗██╗██╗  ░██████╗████████╗░█████╗░██████╗░  ██╗██╗██╗
+██║██║██║  ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗  ██║██║██║
+██║██║██║  ╚█████╗░░░░██║░░░██║░░██║██████╔╝  ██║██║██║
+╚═╝╚═╝╚═╝  ░╚═══██╗░░░██║░░░██║░░██║██╔═══╝░  ╚═╝╚═╝╚═╝
+██╗██╗██╗  ██████╔╝░░░██║░░░╚█████╔╝██║░░░░░  ██╗██╗██╗
+╚═╝╚═╝╚═╝  ╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░  ╚═╝╚═╝╚═╝
+
+This code is intended for use and maintenance by authorized Talemetry CWS Developers only.
+If you are not part of the Talemetry CWS Development team, refrain from making any edits or modifications to the code.
+Unauthorized changes may result in functionality issues or unintended errors.
+
+For any updates, questions, or concerns, please contact your Account Manager for assistance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%- endcomment -%}
+{% include '__global__config__reusable-texts' %}
+{% include '/__global__config__variables' %}
+
+{%- comment -%}Redirect for Blog Posts when switching languages{%- endcomment -%}
+{% capture current_locale_lifeatcdw %}/{{ current_locale.locale }}/posts{% endcapture %}
+
+{% if cb_current_locale_lower == 'en' and post.tag_list contains 'locale-' %}
+    {% redirect_permanent current_locale_lifeatcdw %}
+
+{% elsif cb_current_locale_lower != 'en' %}
+    {% capture locale_tag %}locale-{{ cb_current_locale_lower }}{% endcapture %}
+    {% unless post.tag_list contains locale_tag %}
+        {% redirect_permanent current_locale_lifeatcdw %}
+    {% endunless %}
+
+{% endif %}
+
+{% page_required_header %}
+
+<div id="header-wrapper-fixed-bottom"></div>
+
+<div id="blogpost-details">
+
+    <div class="blogpost-details-inner">
+        <div class="row">
+            <div class="column">
+                <div class="blogpost-details-box">
+                    {% if post.images.size > 1 %}
+                        <div class="blogpost-details__image the-creature">
+                            <img src="{{ post.images[1].url }}" alt="{% if post.images[1].title != post.images[1].file_name %}{{ post.images[1].title | html_safe }}{% endif %}" />
+                        </div>
+                    {% elsif post.images.size == 1 %}
+                        <div class="blogpost-details__image the-creature">
+                            <img src="{{ post.images[0].url }}" alt="{% if post.images[0].title != post.images[0].file_name %}{{ post.images[0].title | html_safe }}{% endif %}" />
+                        </div>
+                    {% endif %}
+
+                    <div class="padded-v-xlarge">
+                        <div class="row">
+                            <div class="columns small-10 small-offset-1 large-8 large-offset-2 end blogpost-details__main">
+                                <section>
+                                    <h1>{{ post.title | html_safe }}</h1>
+
+                                    <div class="blogpost__details-category-date padded-v-small space-medium">
+                                        <div class="row">
+                                            <div class="columns small-7">
+                                                <div class="text-small" style="line-height: 24px;">
+                                                    {{ post.tags | where: 'category-' | assign_to: 'post_category' }}
+                                                    {% if post_category != blank %}
+                                                        {{ post_category[0] | remove: 'category-' | upcase }}
+                                                    {% endif %}
+
+                                                    &nbsp; | &nbsp;
+
+                                                    {{ post.tags | where: 'published-' | assign_to: 'post_published' }}
+                                                    {% if post_published != blank %}
+                                                        {% capture post_publish_date %}{{ post_published[0] | remove: 'published-' }}{% endcapture %}
+                                                        {{ post_publish_date | date: '%-m.%d.%Y' }}
+                                                    {% else %}
+                                                        {{ post.created_at | date: '%-m.%d.%Y' }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="columns small-5 text-right">
+                                                <div class="cs_share_container cs_cfix clearfix">
+                                                    <span class="cs_share_email"></span>
+                                                    <span class="cs_share_linkedin"></span>
+                                                    <span class="cs_share_facebook"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="blogpost-content-outer">
+                                        {{ post.content }}
+                                    </div>
+                                </section>
+                            </div><!--close .blogpost-details__main-->
+                        </div>
+                    </div>
+                </div><!--close .blogpost-details-box-->
+                <div class="space-xlarge"></div>
+            </div>
+        </div>
+    </div><!--close .blogpost-details-inner-js-->
+
+</div><!--close #blogpost-details-->
+
+<script type="text/javascript">talemetry.share();</script>
+      
+{% page_required_footer %}

@@ -1,0 +1,243 @@
+{%- comment -%}
+██╗██╗██╗  ░██████╗████████╗░█████╗░██████╗░  ██╗██╗██╗
+██║██║██║  ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗  ██║██║██║
+██║██║██║  ╚█████╗░░░░██║░░░██║░░██║██████╔╝  ██║██║██║
+╚═╝╚═╝╚═╝  ░╚═══██╗░░░██║░░░██║░░██║██╔═══╝░  ╚═╝╚═╝╚═╝
+██╗██╗██╗  ██████╔╝░░░██║░░░╚█████╔╝██║░░░░░  ██╗██╗██╗
+╚═╝╚═╝╚═╝  ╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░  ╚═╝╚═╝╚═╝
+
+This code is intended for use and maintenance by authorized Talemetry CWS Developers only.
+If you are not part of the Talemetry CWS Development team, refrain from making any edits or modifications to the code.
+Unauthorized changes may result in functionality issues or unintended errors.
+
+For any updates, questions, or concerns, please contact your Account Manager for assistance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%- endcomment -%}
+{% include '__global__config__reusable-texts' %}
+{% include '/__global__config__variables' %}
+
+{%- comment -%}Use the same code for both home.liquid and page.liquid{%- endcomment -%}
+
+{% page_required_header %}
+
+{% if page.permalink == 'sitemap' %}
+{% capture sitemap_content %}
+<div class="row row--wider">
+    <div class="column">
+        <div class="padded-h-medium">
+            <h1>{{ page.title | html_safe }}</h1>
+            <ul>
+                <li><a href="{{ root_url }}{{ current_locale.locale }}">{{ text_home }}</a></li>
+                <li><a href="/{{ current_locale.locale }}/search/jobs">{{ text_search_all_jobs }}</a></li>
+
+                {% for page in employer.pages %}
+                    {% if page.permalink == 'sitemap' or page.tag_list contains 'careers-home' or page.tag_list contains 'no-index' or page.tag_list contains '-section-' %}
+                        <!--do nothing-->
+                    {% else %}
+                        {% capture current_locale_lower %}-locale-{{ cb_current_locale_lower }}{% endcapture %}
+
+                        {% if cb_current_locale_lower == 'en' %}
+                            {% capture is_page_en %}true{% endcapture %}
+
+                            {% for locale in available_locales %}
+                                {% capture locale_lower %}-locale-{{ locale.locale | downcase }}{% endcapture %}
+                                {% if page.tag_list contains locale_lower %}
+                                    {% capture is_page_en %}false{% endcapture %}
+                                    {% break %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if is_page_en == 'true' %}
+                                <li><a href="/{{ current_locale.locale }}/pages/{{ page.permalink }}">{{ page.title | html_safe }}</a></li>
+                            {% endif %}
+
+                        {% elsif page.tag_list contains current_locale_lower %}
+                            <li><a href="/{{ current_locale.locale }}/pages/{{ page.permalink }}">{{ page.title | html_safe }}</a></li>
+
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endcapture %}
+{% endif %}
+
+<div class="page-content">
+    {%- comment -%}Captures the permalink for the page{%- endcomment -%}
+    {% if cb_is_home_page == 'true' %}
+        {% capture page_permalink %}careers-home{% endcapture %}
+    {% elsif page %}
+        {% capture page_permalink %}{{ page.permalink }}{% endcapture %}
+    {% endif %}
+
+    {%- comment -%}Capture page layout{%- endcomment -%}
+    {% capture page_layout %}{% endcapture %}
+    {% if cb_is_home_page == 'true' %}
+        {{ 'careers-home' | pages_with_tag | assign_to: 'careers_home' }}
+        {{ careers_home[0].tags | where: 'layout-' | assign_to: 'page_layouts' }}
+    {% else %}
+        {{ page.tags | where: 'layout-' | assign_to: 'page_layouts' }}
+    {% endif %}
+    {% capture page_layout %}{{ page_layouts[0] }}{% endcapture %}
+
+    {%- comment -%}Capture EN page object{%- endcomment -%}
+    {% if cb_is_home_page == 'true' %}
+        {{ careers_home[0] | assign_to: 'page_object_en' }}
+    {% else %}
+        {{ page | assign_to: 'page_object_en' }}
+    {% endif %}
+
+    {%- comment -%}if not English, capture corresponding Content Page language{%- endcomment -%}
+    {% if cb_current_locale_lower != 'en' %}
+        {% capture page_language_tag %}{{ page_permalink }}-locale-{{ cb_current_locale_lower }}{% endcapture %}
+        {{ page_language_tag | pages_with_tag | assign_to: 'page_language' }}
+
+        {% if page_language.size > 0 %}
+            {% capture has_translations %}true{% endcapture %}
+        {% endif %}
+    {% endif %}
+
+    {% if has_translations == 'true' %}
+        {{ page_language[0] | assign_to: 'page_object' }}
+    {% else %}
+        {{ page_object_en | assign_to: 'page_object' }}
+    {% endif %}
+
+    {% if page.tag_list contains 'no-index' %}
+        <section id="{{ page_object.permalink }}" class="{{ page_object_en.tag_list | remove: ',' }}{% if page_object.content contains 'ITEM START' %} has-items{% endif %}">
+            <div class="row row--wider">
+                <div class="column">
+                    <div class="branded-container padded-v-medium">
+                        <div class="page-breadcrumbs padded-h-medium space-medium">
+                            <div class="row row--wider">
+                                <div class="columns job-details__heading-back">
+                                    <a href="{{ root_url }}/{{ current_locale.locale }}" class="branded-link-no-arrow">{{ text_home }}</a>
+                                    &nbsp; / &nbsp;
+                                    {{ page_object.title | html_safe }}
+                                </div>
+                            </div>
+                        </div><!--close .page-breadcrumbs-->
+
+                        {{ page_object.content }}
+
+                        {% if page.permalink == 'sitemap' %}
+                            {{ sitemap_content }}
+                        {% endif %}
+                    </div><!--close .branded-container-->
+                </div>
+            </div>
+        </section>
+
+    {% else %}
+        <section id="{{ page_object.permalink }}" class="{{ page_object_en.tag_list | remove: ',' }}{% if page_object.content contains 'ITEM START' %} has-items{% endif %}">
+            <div class="row">
+                <div class="column text-center">
+                    {% if cb_is_home_page == 'true' %}
+                        <h1 class="heading-2 show-for-sr">{{ text_careers_at_company }}</h1>
+                    {% else %}
+                        {% capture page_title %}{{ page_object.title | html_safe }}{% endcapture %}
+                    {% endif %}
+                </div>
+            </div>
+            {% if page_layout != blank %}
+                {{ page_object | assign_to: 'page_section_object' }}
+                {% capture page_layout_global %}/__global__{{ page_layout }}{% endcapture %}
+                {% include page_layout_global %}
+            {% else %}
+                <div class="row">
+                    <div class="column">
+                        {{ page_object.content }}
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+
+    {% endif %}
+
+    {%- comment -%}Display Page Sections{%- endcomment -%}
+    {% capture page_title %}{% endcapture %}
+    {% capture is_lazyload %}true{% endcapture %}
+    
+    {% for i in (1..employer.pages.size) %}
+        {% capture page_section_order_tag %}{{ page_permalink }}-section-{{ forloop.index }}{% endcapture %}
+        {{ page_section_order_tag | pages_with_tag | assign_to: 'page_sections' }}
+
+        {% capture page_section_language_order_tag %}{% endcapture %}
+        {% if cb_current_locale_lower != 'en' %}
+            {% capture page_section_language_order_tag %}{{ page_permalink }}-section-{{ forloop.index }}-locale-{{ cb_current_locale_lower }}{% endcapture %}
+            {{ page_section_language_order_tag | pages_with_tag | assign_to: 'page_sections_language' }}
+        {% endif %}
+
+        {% if has_translations == 'true' %}
+            {{ page_sections_language[0] | assign_to: 'page_section_object' }}
+        {% else %}
+            {{ page_sections[0] | assign_to: 'page_section_object' }}
+        {% endif %}
+
+        {% if page_sections.size > 0 %}
+            {{ page_sections[0].tags | where: 'layout-' | assign_to: 'page_layouts' }}
+            {% capture page_layout %}{{ page_layouts[0] }}{% endcapture %}
+
+            <section id="{{ page_section_object.permalink }}" class="{{ page_sections[0].tag_list | remove: ',' }}{% if page_sections[0].content contains 'ITEM START' %} has-items{% endif %}">
+                {% if page_layout != blank %}
+                    {% capture page_layout_global %}/__global__{{ page_layout }}{% endcapture %}
+                    {% include page_layout_global %}
+                {% else %}
+                    <div class="row">
+                        <div class="column">
+                            {{ page_section_object.content }}
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+        {% else %}
+            {% break %}
+        {% endif %}
+    {% endfor %}
+
+</div><!--close .page-content-->
+
+{% page_required_footer %}

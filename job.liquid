@@ -1,0 +1,250 @@
+{%- comment -%}
+██╗██╗██╗  ░██████╗████████╗░█████╗░██████╗░  ██╗██╗██╗
+██║██║██║  ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗  ██║██║██║
+██║██║██║  ╚█████╗░░░░██║░░░██║░░██║██████╔╝  ██║██║██║
+╚═╝╚═╝╚═╝  ░╚═══██╗░░░██║░░░██║░░██║██╔═══╝░  ╚═╝╚═╝╚═╝
+██╗██╗██╗  ██████╔╝░░░██║░░░╚█████╔╝██║░░░░░  ██╗██╗██╗
+╚═╝╚═╝╚═╝  ╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░  ╚═╝╚═╝╚═╝
+
+This code is intended for use and maintenance by authorized Talemetry CWS Developers only.
+If you are not part of the Talemetry CWS Development team, refrain from making any edits or modifications to the code.
+Unauthorized changes may result in functionality issues or unintended errors.
+
+For any updates, questions, or concerns, please contact your Account Manager for assistance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%- endcomment -%}
+{% include '__global__config__reusable-texts' %}
+{% include '/__global__config__variables' %}
+
+{% page_required_header %}
+<script>console.log('{{ job.external_id }}');</script>
+
+{% unless root_url contains 'ttcportals.com' or root_url contains 'internal' or root_url contains 'agency' %}
+    {% if job.active? and is_referral_page != 'true' %}
+        <script type="application/ld+json">
+            {
+                "@context" : "http://schema.org/",
+                "@type" : "JobPosting",
+                "title" : "{{ job.title | escape_javascript }}",
+                "description" : "{{ job.description | escape_javascript | replace: "\'","'" | replace: "\$","$" }}",
+                "identifier": {
+                    "@type": "PropertyValue",
+                    "name": "{{ cb_company_name }}",
+                    "value": "{{ job.external_id }}"
+                },
+                "hiringOrganization" : {
+                    "@type" : "Organization",
+                    "name" : "{{ cb_company_name }}",
+                    "logo" : "{{ root_url }}system/production/assets/468257/original/cdw__icon.png"
+                },
+                "jobLocation" : {
+                    "@type" : "Place",
+                    "address" : {
+                        "@type" : "PostalAddress",
+                        "streetAddress" : "{{ job.location.street | escape_javascript }}",
+                        "addressLocality" : "{{ job.location.city | escape_javascript }}",
+                        "addressRegion" : "{{ job.location.state_prov | escape_javascript }}",
+                        "postalCode" : "{{ job.location.postal_code | escape_javascript }}",
+                        "addressCountry": "{{ job.location.country | escape_javascript }}"
+                    }
+                },
+                {% if job.remote_work_label != blank %}"jobLocationType": "{{ job.remote_work_label }}",{% endif %}
+                "datePosted" : "{{ job.updated_at | date: "%Y-%m-%d" }}",
+                {% if job.cfdisplay_JobCloseDate != blank %}"validThrough": "{{ job.cfdisplay_JobCloseDate | date: "%Y-%m-%d" }}",{% endif %}
+                "directApply": true
+            }
+        </script>
+        {%- comment -%}
+        Woody Gibson via Slack: it looks like those fields (PostingEnd + JobCloseDate) might be pointing to the same data in the candidate payload. I see they both have values, but not sure what functionality they may have.
+        DoyleS: will use JobCloseDate for the validThrough data as this custom field is mapped as a CFM, so it's likely being used somewhere.
+        {%- endcomment -%}
+    {% endif %}
+{% endunless %}
+
+{% if is_job_details == 'false' %}
+    {% unless job.active? %}
+        {% redirect_temporary '/search/jobs?ns_inactive_job=1' %}
+    {% endunless %}
+{% endif %}
+
+<div id="apply-top" class="js hide">
+    {% if job.active? %}
+        {% if agency %}
+            {{ job | link_to_apply:text_submit_candidate, agency }}
+        {% else %}
+            {{ job | link_to_apply:text_apply_now }}
+        {% endif %}
+    {% endif %}
+</div>
+
+<div id="header-wrapper-fixed-bottom"></div>
+
+<div id="job-details">
+    <div class="job-details-preloader-js preloader preloader--job hide">
+        <div class="facet-job-loading hide-for-print" role="alert" aria-labelledby="facet-job-loading">
+            <div class="show-for-sr"><label id="facet-jobs-loading">{{ text_loading_job }}</label></div>
+        </div>
+    </div>
+
+    <div class="job-details-inner-js active">
+        <div class="row">
+            <div class="column">
+                <div class="job-details-box branded-container padded-v-large padded-h-medium">
+                    <div class="row">
+                        <div class="column large-8 end">
+                            {% comment %}
+                            2025-04-08 EdK: On mobile, please update the main title of the page (h1) to 24px font-size / 32px line-height
+                            DS: as of this date, H3 / .heading-3 has font-size 24px / line-height 32px
+
+                            2025-04-22 EdK: per email on Job Description Format, update H1 to 32px font-size / 40px line-height
+                            DS: as of this date, H2 / .heading-2 has font-size 32px / line-height 40px
+                            {% endcomment %}
+                            <h1 class="heading-2">{{ job.title | html_safe }}</h1>
+
+                            {% unless job.active? %}
+                                {{ text_inactive_job }}
+                            {% endunless %}
+                            {% if notice %}
+                                <p>{{ notice }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row space-small">
+                        <div class="columns large-4 large-push-8 job-details__sidebar">
+                            <aside>
+                                <div class="row">
+                                    <div class="columns small-6 large-7">
+                                        {% if job.active? %}
+                                            {% if agency %}
+                                                <button class="apply-bottom js branded-button-medium space-large">{{ text_submit_candidate }}</button>
+                                            {% else %}
+                                                <button class="apply-bottom js branded-button-medium space-large">{{ text_apply_now }}</button>
+                                            {% endif %}
+                                        {% endif %}&nbsp;
+                                    </div>
+                                    <div class="columns small-6 large-5">
+                                        <div class="padded-v-small">
+                                            <div class="cs_share_container cs_cfix clearfix">
+                                                <span class="cs_share_email"></span>
+                                                <span class="cs_share_linkedin"></span>
+                                                <span class="cs_share_facebook"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="job-data-item padded-v-small"><strong>Job ID:</strong> {{ job.cfdisplay_JobDisplayID }}</div>
+                                {% if job.cfm4 != blank %}<div class="job-data-item padded-v-small"><strong>Team:</strong> {{ job.cfm4 }}</div>{% endif %}
+                                {% if job.cfm3 != blank %}<div class="job-data-item padded-v-small"><strong>Focus Area:</strong> {{ job.cfm3 }}</div>{% endif %}
+                                <div class="job-data-item padded-v-small">
+                                    <strong>Location:</strong>
+                                    {% if job.location.city contains 'Remote' or job.location.city contains 'remote' %}
+                                        Remote - {{ job.location.country | replace: 'United States','USA' }}
+
+                                    {% else %}
+                                        {% if job.location.city != blank %}
+                                            {{ job.location.city }}{% if job.location.state_prov_short != blank or job.location.country != blank %},{% endif %}
+                                        {% endif %}
+                                        {% if job.location.state_prov_short != blank %}
+                                            {% capture job_location_state_prov_short_no_digit %}{{ job.location.state_prov_short | replace_global_regex: "[\d]", ":::" }}{% endcapture %}
+                                            {% if job_location_state_prov_short_no_digit contains ':::' %}
+                                                {{ job.location.state_prov }}{% if job.location.country != blank %},{% endif %}
+                                            {% else %}
+                                                {{ job.location.state_prov_short }}{% if job.location.country != blank %},{% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if job.location.country != blank %}{{ job.location.country }}{% endif %}
+
+                                    {% endif %}
+
+                                </div>
+                                {% if job.remote_work_label != blank %}<div class="job-data-item padded-v-small"><strong>Remote Type:</strong> {{ job.remote_work_label }}</div>{% endif %}
+                                <div class="job-data-item padded-v-small"><strong>Date Posted:</strong> {{ job.updated_at | date: "%b %d, %Y" }}</div>
+                            </aside>
+                        </div><!--close .job-details__sidebar-->
+
+                        <div class="columns large-8 large-pull-4 job-details__main">
+                            <section>
+                                <div class="space-medium"></div>
+                                {{ job.description }}
+                            </section>
+                        </div><!--close .job-details__main-->
+                    </div>
+
+                    <div class="row">
+                        <div class="column large-4 large-push-8 end">
+                            <div class="row">
+                                <div class="columns small-6 large-7">
+                                    {% if job.active? %}
+                                        {% if agency %}
+                                            <button class="apply-bottom js branded-button-medium space-large">{{ text_submit_candidate }}</button>
+                                        {% else %}
+                                            <button class="apply-bottom js branded-button-medium space-large">{{ text_apply_now }}</button>
+                                        {% endif %}
+                                    {% endif %}&nbsp;
+                                </div>
+                                <div class="columns small-6 large-5">
+                                    <div class="padded-v-small">
+                                        <div class="cs_share_container cs_cfix clearfix">
+                                            <span class="cs_share_email"></span>
+                                            <span class="cs_share_linkedin"></span>
+                                            <span class="cs_share_facebook"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--close .job-details-box-->
+                <div class="space-xlarge"></div>
+            </div>
+        </div>
+    </div><!--close .job-details-inner-js-->
+
+</div><!--close #job-details-->
+
+<script type="text/javascript">talemetry.share();</script>
+      
+{% page_required_footer %}
