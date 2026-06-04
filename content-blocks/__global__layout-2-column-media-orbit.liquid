@@ -1,0 +1,32 @@
+{% if page_title != blank %}
+<div class="row">
+    <div class="column text-center">
+        <h1>{{ page_title }}</h1>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="columns large-5">
+        <div class="padded-v-medium show-for-large"></div>
+        {{ page_section_object.content }}
+    </div>
+    <div class="columns large-7">
+        <div class="orbit-outer space-xlarge the-creature">
+            <div class="orbit-bg">
+                <img src="/system/production/assets/468264/original/orbit-bg.png" alt="" class="full-width" />
+            </div>
+            <div class="orbit-images text-center">
+                {% if page.images.size > 0 %}
+                    {% for page_section_image in page_section_object.images limit: 3 %}
+                        <div class="orbit-images__item">
+                            <div class="space-small">
+                                <img src="{{ page_section_image.url }}" alt="{% if page_section_image.title != page_section_image.file_name %}{{ page_section_image.title | html_safe }}{% endif %}"{% if is_lazyload == 'true' %} loading="lazy"{% endif %} />
+                            </div>
+                            {% if page_section_image.title != page_section_image.file_name %}{{ page_section_image.title | html_safe }}{% endif %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div><!--close .orbit-outer-->
+    </div>
+</div>

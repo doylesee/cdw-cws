@@ -1,0 +1,10 @@
+{% capture page_content %}{% endcapture %}
+{% capture page_images %}{% endcapture %}
+
+{% capture include_name_content %}{% include include_name %}{% endcapture %}
+
+{% unless include_name_content contains 'error' or include_name_content == blank %}
+    {% capture include_content %}{% include include_name %}{% endcapture %}
+{% else %}
+	{% capture include_content %}{% endcapture %}
+{% endunless %}

@@ -1,0 +1,89 @@
+{% capture page_content_formatted %}{{ page_section_object.content | replace_global_regex: '\r\n','' | replace: '<pre>ITEM ENDITEM START</pre>','</div>------<div class="item">' | replace: '<pre>ITEM START</pre>','---<div class="item">' | replace: '<pre>ITEM END</pre>','</div>---' }}{% endcapture %}
+{% assign page_content_array = page_content_formatted | split: '---' | assign_to: 'page_section_elements' %}
+
+{% capture column_contents %}{% endcapture %}
+{{ 0 | assign_to: 'item_index' }}
+{% assign row_index = 0 %}
+
+{% for page_section_element in page_section_elements %}
+	{% if page_section_element contains '<div class="item">' %}
+		{% capture column_contents %}
+		{{ column_contents }}
+		{% if row_index == 0 %}
+			{% assign row_index = 1 %}
+			<div class="row same-height-parent-js">
+		{% endif %}
+		<div class="columns medium-10 medium-offset-1 large-4 large-offset-0 end">
+			<div class="space-foundation">
+				{% capture page_section_element_content_formatted %}{{ page_section_element | replace: '<p>','---' | replace: '</p>','---' }}{% endcapture %}
+		        {% assign page_section_element_content_array = page_section_element_content_formatted | split: '---' | assign_to: 'page_section_element_attr' %}
+		        {% assign page_section_element_permalink_data = page_section_element_attr[1] | strip %}
+
+		        {% if page_section_element_permalink_data contains 'multilink' %}
+		        	{% capture bottom_link %}{{ page_section_element_permalink_data | remove: 'multilink,' | prepend: '<p class="item-link"><strong>' | append: '</strong></p>' }}{% endcapture %}
+		        {% else %}
+			        {{ page_section_element_permalink_data | split: ',' | assign_to: 'page_section_element_permalink_attrs' }}
+			        {% assign page_section_element_permalink_url = page_section_element_permalink_attrs[0] | strip %}
+			        {% assign page_section_element_permalink_text = page_section_element_permalink_attrs[1] | strip %}
+
+			        {% capture bottom_link %}<a href="{{ page_section_element_permalink_url }}" class="item-more branded-link"{% if page_section_element_permalink_url contains 'http' %} target="_blank"{% endif %}>{{ page_section_element_permalink_text }}</a>{% endcapture %}
+			    {% endif %}
+
+		        <div class="branded-card">
+			        <a href="{{ page_section_element_permalink_url }}"{% if page_section_element_permalink_url contains 'http' %} target="_blank"{% endif %}>
+						{% if page_section_object.images.size > 0 %}
+							<div class="item-image">
+								<img src="{{ page_section_object.images[item_index].url }}" alt="{% if page_section_object.images[item_index].title != page_section_object.images[item_index].file_name %}{{ page_section_object.images[item_index].title | html_safe }}{% endif %}"{% if is_lazyload == 'true' %} loading="lazy"{% endif %} class="the-creature" />
+							</div>
+						{% endif %}
+					</a>
+					<div class="item-copy padded-small">
+						<div class="padded-xsmall">
+							<div class="same-height-item-js space-small">
+								<a href="{{ page_section_element_permalink_url }}"{% if page_section_element_permalink_url contains 'http' %} target="_blank"{% endif %}>
+									{{ page_section_element | replace_first: '<p>','<p class="hide">' }}
+								</a>
+							</div>
+							<div class="space-small another-same-height-item-js">{{ bottom_link }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="space-medium show-for-large"></div>
+			</div>
+		</div>
+		{% endcapture %}
+		{{ item_index | plus: 1 | assign_to: 'item_index' }}
+
+	{% elsif page_section_element != '' %}
+		{% capture column_contents %}
+		{{ column_contents }}
+		{% if row_index == 1 %}
+			{% assign row_index = 0 %}
+			</div>
+			<div class="space-medium"></div>
+		{% endif %}
+		<div class="row">
+			<div class="column">
+				{{ page_section_element }}
+			</div>
+		</div>
+		{% endcapture %}
+
+	{% endif %}
+{% endfor %}
+
+{% capture column_contents %}
+{{ column_contents }}
+{% if row_index == 1 %}
+	</div>
+{% endif %}
+{% endcapture %}
+
+{% if page_title != blank %}
+<div class="row">
+    <div class="column text-center">
+        <h1>{{ page_title }}</h1>
+    </div>
+</div>
+{% endif %}
+{{ column_contents }}

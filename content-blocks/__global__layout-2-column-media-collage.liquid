@@ -1,0 +1,22 @@
+{% if page_title != blank %}
+<div class="row">
+    <div class="column text-center">
+        <h1>{{ page_title }}</h1>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="columns large-7">
+        <div class="image-collage space-small">
+            {% if page.images.size > 0 %}
+                {% for page_section_image in page_section_object.images %}
+                    <img src="{{ page_section_image.url }}" alt="{% if page_section_image.title != page_section_image.file_name %}{{ page_section_image.title | html_safe }}{% endif %}"{% if is_lazyload == 'true' %} loading="lazy"{% endif %} class="the-creature" />
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="columns large-5">
+        <div class="padded-v-medium show-for-large"></div>
+        {{ page_section_object.content }}
+    </div>
+</div>

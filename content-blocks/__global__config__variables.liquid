@@ -1,0 +1,126 @@
+{% include '__global__config__reusable-texts' %}
+
+{% capture cb_locale_permalink %}/{{ current_locale.locale }}{% endcapture %}
+{% capture cb_current_locale_lower %}{{ current_locale.locale | downcase }}{% endcapture %}
+
+{% comment %}set is_referral_site variable{% endcomment %}
+{% capture cb_is_referral_site %}false{% endcapture %}
+
+{% comment %}set is_job_details variable{% endcomment %}
+{% if template.permalink contains 'referral-' %}
+    {% capture cb_is_referral_page %}true{% endcapture %}
+{% endif %}
+{% if root_url contains 'internal' %}
+    {% if job and is_referral_page == 'true' %}
+        {% capture cb_is_job_details %}false{% endcapture %}
+    {% else %}
+        {% capture cb_is_job_details %}true{% endcapture %}
+    {% endif %}
+{% endif %}
+
+<!--Detecting if Careers Home page-->
+{% if template.permalink == 'career_site_home_page' or template.permalink == cb_current_locale_lower %}
+    {% capture cb_is_home_page %}true{% endcapture %}
+{% endif %}
+
+<!--Detecting if Job Search Results page-->
+{% if request.path contains '/search' and request.path contains '/jobs' %}
+    {% capture cb_is_job_search %}true{% endcapture %}
+{% endif %}
+
+<!--Capturing company name into a variable for use within code-->
+{% capture cb_company_name %}CDW{% endcapture %}
+
+{% if cb_is_home_page == 'true' %}
+    {% capture home_page_tag %}careers-home{% if cb_current_locale_lower != 'en' %}-locale-{{ cb_current_locale_lower }}{% endif %}{% endcapture %}
+    {{ home_page_tag | pages_with_tag | assign_to: 'home_page' }}
+    
+    <!--Setting meta content for Careers Home page-->
+    {% capture seo_to_index %}true{% endcapture %}
+    {% capture meta_title %}{{ text_careers_at_company }}{% endcapture %}
+    {% capture meta_description %}{% if home_page[0].meta_description != blank %}{{ home_page[0].meta_description }}{% else %}{% meta_description %}{% endif %}{% endcapture %}
+    {% capture meta_keywords %}{% if home_page[0].meta_keywords != blank %}{{ home_page[0].meta_keywords }}{% else %}{% meta_keywords %}{% endif %}{% endcapture %}
+
+{% elsif cb_is_job_search == 'true' %}
+    <!--Setting meta content for Facet pages-->
+    {% if selected_facets.size == 1 %}
+        {% capture seo_to_index %}true{% endcapture %}
+        {% capture meta_title %}{{ text_facet_careers }}{% endcapture %}
+        {% capture meta_description %}{{ text_search_facet_careers_at_company }}{% endcapture %}
+        {% capture meta_keywords %}{% meta_keywords %}{% endcapture %}
+    <!--Setting meta content for Saved Jobs page-->
+    {% elsif params['saved_jobs'] == '1' %}
+        {% capture seo_to_index %}false{% endcapture %}
+        {% capture meta_title %}{{ text_saved_jobs }}{% endcapture %}
+        {% capture meta_description %}{% endcapture %}
+        {% capture meta_keywords %}{% endcapture %}
+    <!--Setting meta content for Job Search Results pages-->
+    {% else %}
+        {% if request_fullpath contains '?' and request_fullpath contains '=' %}
+            {% capture seo_to_index %}false{% endcapture %}
+        {% elsif selected_facets.size > 1 %}
+            {% capture seo_to_index %}false{% endcapture %}
+        {% else %}
+            {% capture seo_to_index %}true{% endcapture %}
+        {% endif %}
+        {% capture meta_title %}{{ text_job_search_results }}{% endcapture %}
+        {% capture meta_description %}{{ text_search_careers_at_company }}{% endcapture %}
+        {% capture meta_keywords %}{% meta_keywords %}{% endcapture %}
+    {% endif %}
+
+{% elsif job %}
+    <!--Setting meta content for Job Details pages-->
+    {% capture seo_to_index %}{{ job.active? }}{% endcapture %}
+    {% capture meta_title %}{{ text_job_title_in_job_location }}{% endcapture %}
+    {% capture meta_description %}{{ text_job_title_in_job_location }}{% endcapture %}
+    {% capture meta_keywords %}{% meta_keywords %}{% endcapture %}
+
+{% elsif page %}
+    <!--Setting meta content for content pages-->
+    {% if page.tag_list contains 'no-index' %}
+        {% capture seo_to_index %}false{% endcapture %}
+    {% else %}
+        {% capture seo_to_index %}true{% endcapture %}
+    {% endif %}
+
+    {% if current_locale.locale != 'en' %}
+        {% capture page_permalink_locale_tag %}{{ page.permalink }}-{{ current_locale.locale | downcase }}{% endcapture %}
+        {{ page_permalink_locale_tag | pages_with_tag | assign_to: 'page_permalink_locale' }}
+        {{ page_permalink_locale[0] | assign_to: 'page_section_object' }}
+    {% else %}
+        {{ page | assign_to: 'page_section_object' }}
+    {% endif %}
+
+    {% capture meta_title %}{{ page_section_object.title | html_safe }}{% endcapture %}
+    {% capture meta_description %}{{ page_section_object.meta_description }}{% endcapture %}
+    {% capture meta_keywords %}{{ page_section_object.meta_keywords }}{% endcapture %}
+
+{% elsif post %}
+    <!--Setting meta content for content pages-->
+    {% capture seo_to_index %}true{% endcapture %}
+    {% if current_locale.locale != 'en' %}
+        {% capture page_permalink_locale_tag %}{{ post.permalink }}-{{ current_locale.locale | downcase }}{% endcapture %}
+        {{ page_permalink_locale_tag | pages_with_tag | assign_to: 'page_permalink_locale' }}
+        {{ page_permalink_locale[0] | assign_to: 'page_section_object' }}
+    {% else %}
+        {{ post | assign_to: 'page_section_object' }}
+    {% endif %}
+
+    {% capture meta_title %}{{ page_section_object.title | html_safe }}{% endcapture %}
+    {% capture meta_description %}{{ page_section_object.meta_description }}{% endcapture %}
+    {% capture meta_keywords %}{{ page_section_object.meta_keywords }}{% endcapture %}
+
+{% elsif template.permalink == 'posts' or template.permalink contains '-posts' %}
+    {% capture seo_to_index %}true{% endcapture %}
+    {% capture meta_title %}{{ text_header_nav_4 }}{% endcapture %}
+    {% capture meta_description %}{{ text_blog_list_copy }}{% endcapture %}
+    {% capture meta_keywords %}{% meta_keywords %}{% endcapture %}
+
+{% endif %}
+
+{% if root_url contains 'internal' %}
+    <!--Setting meta content for non-indexable sites-->
+    {% capture seo_to_index %}false{% endcapture %}
+    {% capture meta_description %}{% endcapture %}
+    {% capture meta_keywords %}{% endcapture %}
+{% endif %}

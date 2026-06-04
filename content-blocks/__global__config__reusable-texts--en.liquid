@@ -1,0 +1,202 @@
+<!--Meta content-->
+{% capture text_careers_at_company %}Explore Tech Careers at CDW{% endcapture %}
+{% capture text_facet_careers %}{{ selected_facets[0]["label"] | html_escape }} Careers{% endcapture %}
+{% capture text_search_facet_careers_at_company %}Search {% if job.total_entries > 0 %}{{ jobs.total_entries }}{% endif %} {{ selected_facets[0]["label"] | html_escape }} Careers available at CDW.{% endcapture %}
+{% capture text_search_careers_at_company %}Search {% if job.total_entries > 0 %}{{ jobs.total_entries }}{% endif %} Careers available at CDW.{% endcapture %}
+{% capture job_location %}
+{% if job.location.city != blank %}
+    {{ job.location.city }}{% if job.location.state_prov_short != blank or job.location.country != blank %},{% endif %}
+{% endif %}
+{% if job.location.state_prov_short != blank %}
+    {% capture job_location_state_prov_short_no_digit %}{{ job.location.state_prov_short | replace_global_regex: "[\d]", ":::" }}{% endcapture %}
+    {% if job_location_state_prov_short_no_digit contains ':::' %}
+        {{ job.location.state_prov }}{% if job.location.country != blank %},{% endif %}
+    {% else %}
+        {{ job.location.state_prov_short }}{% if job.location.country != blank %},{% endif %}
+    {% endif %}
+{% endif %}
+{% if job.location.country != blank %}{{ job.location.country }}{% endif %}
+{% endcapture %}
+{% capture seo_to_index %}{{ job.active? }}{% endcapture %}
+{% capture text_job_title_in_job_location %}{{ job.title }} in {{ job_location }}{% endcapture %}
+
+<!--Header section-->
+{% capture text_skip_to_main_content %}Skip to main content{% endcapture %}
+{% capture text_menu %}Menu{% endcapture %}
+{% capture text_search_jobs %}Search Jobs{% endcapture %}
+{% capture text_saved_jobs %}Saved Jobs{% endcapture %}
+{% capture text_about_us %}About Us{% endcapture %}
+{% capture text_employee_portal %}Employee Portal{% endcapture %}
+{% capture text_candidate_portal %}Candidate Portal{% endcapture %}
+{% capture text_welcome_user %}Welcome, {{ user.first_name }} {{ user.last_name }}!{% endcapture %}
+{% capture text_welcome_visitor %}Welcome, {{ visitor.name }}!{% endcapture %}
+{% capture text_header_nav_1 %}Home{% endcapture %}
+{% capture text_header_nav_2 %}Why CDW{% endcapture %}
+{% capture text_header_nav_3 %}About Us{% endcapture %}
+{% capture text_header_nav_4 %}Blog{% endcapture %}
+{% capture text_header_nav_5 %}Search All Jobs{% endcapture %}
+
+<!--Banner / Search form-->
+{% capture text_keyword_job_title_skills %}Keyword, Job Title, skills{% endcapture %}
+{% capture text_enter_a_location %}Enter a Location{% endcapture %}
+{% capture text_find_jobs %}Find Jobs{% endcapture %}
+{% capture text_banner_copy %}<h2>Amazing happens when talent thrives.<br />Make amazing happen.</h2>{% endcapture %}
+{% capture text_keyword_placeholder %}Search{% endcapture %}
+{% capture text_keyword_placeholder_mobile %}Start your search{% endcapture %}
+
+<!--Talent Network / Internal Mobility-->
+{% capture text_talent_network_blurb %}<p>Interested in working for CDW?<br>Take the first step by joining our Talent Network today!</p>{% endcapture %}
+{% capture text_join_our_talent_network %}Join our Talent Network{% endcapture %}
+{% capture text_talent_network_blurb_referral %}<p>Interested in working for CDW?<br>Take the first step by taking our Talent Assessment today!</p>{% endcapture %}
+{% capture text_join_our_talent_network_referral %}Take our Talent Assessment{% endcapture %}
+
+<!--Footer-->
+{% capture text_all_rights_reserved %}All rights reserved.{% endcapture %}
+{% capture text_prefooter_copy %}<h2>Ready to discover your potential?</h2>{% endcapture %}
+{% capture text_prefooter_button %}Search All Jobs{% endcapture %}
+{% capture text_footer_top_nav_1 %}Search All Jobs{% endcapture %}
+{% capture text_footer_top_nav_2 %}Join the CDW Community{% endcapture %}
+{% capture text_footer_social_follow %}Follow Us:{% endcapture %}
+{% capture text_footer_bottom_nav_1 %}Home{% endcapture %}
+{% capture text_footer_bottom_nav_2 %}Why CDW{% endcapture %}
+{% capture text_footer_bottom_nav_3 %}About Us{% endcapture %}
+{% capture text_footer_bottom_nav_4 %}Blog{% endcapture %}
+{% capture text_footer_bottom_nav_5 %}Contact Us{% endcapture %}
+{% capture text_footer_bottom_nav_6 %}Legal{% endcapture %}
+{% capture text_footer_bottom_nav_7 %}Site Map{% endcapture %}
+{% capture text_footer_copyright %}Copyright @ 2007 - 2025 CDW. All Rights Reserved{% endcapture %}
+
+<!--Cookie-->
+{% capture text_cookie_copy %}<p>CDW uses cookies and other technologies to make our website function and to make advertising and content more relevant to you. To learn more, view our <a target="_blank" href="https://www.cdw.com/content/cdw/en/terms-conditions/privacy-notice/cookie-notice.html" aria-label="Open Cookie Policy - new window" role="button">cookie policy</a>.</p>{% endcapture %}
+{% capture text_cookie_button %}I understand{% endcapture %}
+
+<!--Gamification-->
+{% capture text_employee_id %}Employee ID{% endcapture %}
+{% capture text_email %}Email{% endcapture %}
+{% capture text_total_referral_points %}Total Referral Points{% endcapture %}
+{% capture text_account_activation %}Account Activation{% endcapture %}
+{% capture text_account_login %}Account Login{% endcapture %}
+{% capture text_direct_referrals %}Direct Referrals{% endcapture %}
+{% capture text_general_referrals %}General Referrals{% endcapture %}
+{% capture text_social_job_referrals %}Social Job Referrals{% endcapture %}
+{% capture text_social_general_referrals %}Social General Referrals{% endcapture %}
+{% capture text_referral_link_clicks %}Referral Link Clicks{% endcapture %}
+{% capture text_social_link_clicks %}Social Link Clicks{% endcapture %}
+{% capture text_apply_started %}Apply Started{% endcapture %}
+{% capture text_status_applied %}Status: Applied{% endcapture %}
+{% capture text_status_in_process %}Status: In Process{% endcapture %}
+{% capture text_status_job_offer %}Status: Job Offer{% endcapture %}
+{% capture text_status_hired %}Status: Hired{% endcapture %}
+{% capture text_status_not_hired %}Status: Not Hired{% endcapture %}
+{% capture text_probation_complete %}Probation Complete{% endcapture %}
+{% capture text_acitivity_count %}Activity Count{% endcapture %}
+{% capture text_activity_points %}Activity Points{% endcapture %}
+
+<!--Job Search page-->
+{% capture text_search_results_heading %}
+{% if params['q'] != blank and params['location'] == blank %}
+    {{ jobs.total_entries }} {{ params['q'] | escape_html }} jobs found
+
+{% elsif params['q'] == blank and params['location'] != blank %}
+    {{ jobs.total_entries }} {{ params['location'] | escape_html }} jobs found
+
+{% elsif params['q'] != blank and params['location'] != blank %}
+    {{ jobs.total_entries }} {{ params['q'] | escape_html }} jobs in {{ params['location'] | escape_html }} found
+
+{% endif %}
+{% endcapture %}
+{% capture text_job_search_results %}Job Search Results{% endcapture %}
+
+{% if params['page'] == blank or params['page'] == 1 %}
+    {% capture n1 %}1{% endcapture %}
+    {% capture n2 %}{{ jobs.length }}{% endcapture %}
+
+{% else %}
+    {% if params['per_page'] == blank %}
+        {% capture tal_per_page %}25{% endcapture %}
+    {% else %}
+        {% capture tal_per_page %}{{ params['per_page'] }}{% endcapture %}
+    {% endif %}
+
+    {% capture tal_jobs_length %}{{ tal_per_page | minus: jobs.length }}{% endcapture %}
+
+    {% capture n1 %}{{ params['page'] | minus: 1 | times: tal_per_page | plus: 1 }}{% endcapture %}
+    {% capture n2 %}{{ tal_per_page | times: params['page'] | minus: tal_jobs_length }}{% endcapture %}
+{% endif %}
+{% capture text_showing %}Showing {{ n1 }}-{{ n2 }} results out of total {{ jobs.total_entries }} open jobs{% endcapture %}
+{% capture text_no_results_found %}<p>No jobs found matching your search. Please try again or <a href="javascript:void(0);" class="candidate-notification-link">set up a job alert</a>.</p>{% endcapture %}
+{% capture text_loading_jobs %}Loading jobs{% endcapture %}
+<!--Job Search page: Facets-->
+{% capture text_filter_your_results %}Filter Your Results{% endcapture %}
+{% capture text_refine_your_search %}Refine Your Search{% endcapture %}
+{% capture text_clear_all %}Clear All{% endcapture %}
+{% capture text_category %}Category{% endcapture %}
+{% capture text_country %}Country{% endcapture %}
+{% capture text_state %}State{% endcapture %}
+{% capture text_city %}City{% endcapture %}
+{% capture text_team %}Team{% endcapture %}
+{% capture text_focus_area %}Focus Area{% endcapture %}
+{% capture text_state_province_location %}State / Province / Location{% endcapture %}
+{% capture text_show_more %}Show more{% endcapture %}
+{% capture text_clear_filters %}Clear Filters{% endcapture %}
+{% capture text_close %}Close{% endcapture %}
+{% capture text_jobs %}jobs{% endcapture %}
+{% capture text_selected %}selected{% endcapture %}
+<!--Job Search page: Job Alerts-->
+{% capture text_set_up_job_alerts %}Set Up Job Alerts{% endcapture %}
+<!--Job Search page: Personalization-->
+{% capture text_frequent_job_searches %}Frequent Job Searches{% endcapture %}
+{% capture text_recent_job_searches %}Recent Job Searches{% endcapture %}
+{% capture text_recently_viewed_jobs %}Recently Viewed Jobs{% endcapture %}
+{% capture text_recommended_jobs %}Recommended Jobs{% endcapture %}
+<!--Job Search page: Sortby-->
+{% capture text_sort_by %}Sort by{% endcapture %}
+{% capture text_relevance %}Relevance{% endcapture %}
+{% capture text_most_recent %}Most Recent{% endcapture %}
+<!--Job Search: List headings-->
+{% capture text_job_title %}Job Title{% endcapture %}
+{% capture text_location %}Location{% endcapture %}
+{% capture text_date_posted %}Date Posted{% endcapture %}
+{% capture text_new %}NEW{% endcapture %}
+{% capture text_view_more_jobs %}View more jobs{% endcapture %}
+<!--Job Search page: Referral Incentives-->
+{% capture text_incentive %}Incentive{% endcapture %}
+{% capture text_none %}None{% endcapture %}
+<!--Job Search page: pagination-->
+{% capture text_previous %}previous{% endcapture %}
+{% capture text_next %}next{% endcapture %}
+
+<!--Job Details page-->
+{% capture text_home %}Home{% endcapture %}
+{% capture text_search_all_jobs %}Search All Jobs{% endcapture %}
+{% capture text_back_to_search_results %}Back to Search Results{% endcapture %}
+{% capture text_previous_opportunity %}Previous Opportunity{% endcapture %}
+{% capture text_next_opportunity %}Next Opportunity{% endcapture %}
+{% capture text_inactive_job %}<p>This job posting is no longer active.</p>{% endcapture %}
+{% capture text_inactive_referral_job %}<p>This job posting you were looking for is no longer active. Please search for other jobs instead.</p>{% endcapture %}
+{% capture text_loading_job %}Loading job{% endcapture %}
+<!--Job Details page: social share-->
+{% capture text_share %}Share{% endcapture %}
+{% capture text_copy %}Copy{% endcapture %}
+{% capture text_copied %}Copied!{% endcapture %}
+<!--Job Details page: Save Job functionality-->
+{% capture text_save_job %}Save Job{% endcapture %}
+{% capture text_saved %}Saved{% endcapture %}
+{% capture text_job_has_been_saved %}Job has been saved!{% endcapture %}
+{% capture text_job_has_been_removed %}Job has been removed.{% endcapture %}
+<!--Job Details page: Apply / Refer buttons-->
+{% capture text_apply_now %}Apply Now{% endcapture %}
+{% capture text_submit_candidate %}Submit Candidate{% endcapture %}
+{% capture text_refer_a_friend %}Refer a Friend{% endcapture %}
+{% capture text_refer_a_coworker %}Refer a Co-Worker{% endcapture %}
+{% capture text_referral_reward %}Referral Reward{% endcapture %}
+<!--Job Details page: Similar Jobs-->
+{% capture text_similar_jobs %}Similar Jobs{% endcapture %}
+{% capture text_view_more %}View More{% endcapture %}
+
+<!--Blog pages-->
+{% capture text_blog_list_copy %}
+<h2 class="heading-1">Hear it from us!</h2>
+<p>Read articles from CDW coworkers to learn more about our electric culture, endless opportunities, and #LifeAtCDW.</p>
+{% endcapture %}
+{% capture text_blog %}Blog{% endcapture %}

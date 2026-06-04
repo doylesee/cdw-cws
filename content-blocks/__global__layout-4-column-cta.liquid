@@ -1,0 +1,64 @@
+{% capture page_content_formatted %}{{ page_section_object.content | replace_global_regex: '\r\n','' | replace: '<pre>ITEM ENDITEM START</pre>','</div>------<div class="item">' | replace: '<pre>ITEM START</pre>','---<div class="item">' | replace: '<pre>ITEM END</pre>','</div>---' }}{% endcapture %}
+{% assign page_content_array = page_content_formatted | split: '---' | assign_to: 'page_section_elements' %}
+
+{% capture column_contents %}{% endcapture %}
+{{ 0 | assign_to: 'item_index' }}
+{% assign row_index = 0 %}
+
+{% for page_section_element in page_section_elements %}
+	{% if page_section_element contains '<div class="item">' %}
+		{% capture column_contents %}
+		{{ column_contents }}
+		{% if row_index == 0 %}
+			{% assign row_index = 1 %}
+			<div class="row">
+		{% endif %}
+		<div class="columns small-6 large-3 end text-center">
+			<div class="space-foundation">
+				{% capture page_section_element_content_formatted %}{{ page_section_element | replace: '<p>','---' | replace: '</p>','---' }}{% endcapture %}
+		        {% assign page_section_element_content_array = page_section_element_content_formatted | split: '---' | assign_to: 'page_section_element_attr' %}
+		        {% assign page_section_element_permalink = page_section_element_attr[1] | strip %}
+		        <a href="{{ page_section_element_permalink }}" class="branded-card padded-v-medium padded-h-large the-creature">
+					{% if page_section_object.images.size > 0 %}
+						<img src="{{ page_section_object.images[item_index].url }}" alt="{% if page_section_object.images[item_index].title != page_section_object.images[item_index].file_name %}{{ page_section_object.images[item_index].title | html_safe }}{% endif %}"{% if is_lazyload == 'true' %} loading="lazy"{% endif %} />
+					{% endif %}
+					{{ page_section_element | replace_first: '<p>','<p class="hide">' }}
+				</a>
+			</div>
+		</div>
+		{% endcapture %}
+		{{ item_index | plus: 1 | assign_to: 'item_index' }}
+
+	{% elsif page_section_element != '' %}
+		{% capture column_contents %}
+		{{ column_contents }}
+		{% if row_index == 1 %}
+			{% assign row_index = 0 %}
+			</div>
+			<div class="space-medium"></div>
+		{% endif %}
+		<div class="row">
+			<div class="column">
+				{{ page_section_element }}
+			</div>
+		</div>
+		{% endcapture %}
+
+	{% endif %}
+{% endfor %}
+
+{% capture column_contents %}
+{{ column_contents }}
+{% if row_index == 1 %}
+	</div>
+{% endif %}
+{% endcapture %}
+
+{% if page_title != blank %}
+<div class="row">
+    <div class="column text-center">
+        <h1>{{ page_title }}</h1>
+    </div>
+</div>
+{% endif %}
+{{ column_contents }}
