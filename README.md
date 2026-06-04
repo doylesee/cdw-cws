@@ -1,4 +1,4 @@
-<p><a href="https://www.cdwjobs.com/"><img src="https://doylesee.github.io/cdw-cws/thumbnail.jpeg" /></a></p>
+<p><a href="https://www.cdwjobs.com/"><img src="https://doylesee.github.io/cdw-cws/thumbnail.jpg" /></a></p>
 
 ## Project Overview
 <pre>
