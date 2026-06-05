@@ -16,13 +16,13 @@ CDW operated multiple separate regional career websites (including US and Canada
 This migration introduced several complex structural hurdles:
 
 **Design Fragmentation**<br />
-Over years of ad-hoc updates, the legacy sites suffered from extreme visual inconsistencies. Margins, paddings, color hex codes, and typography scales varied from section to section because no centralized design system existed.
+Over years of ad-hoc updates, the legacy sites suffered from visual inconsistencies. Margins, paddings, color hex codes, and typography varied from section to section because no centralized design system existed.
 
 **Legacy Data Migration**<br />
 Many existing recruitment and culture blogs had to be safely exported from the previous career sites, and accurately mapped to fit into the new global architecture without losing historic search engine positioning (SEO) or breaking embedded media.
 
 **Multi-lingual Compliance**<br />
-Meeting strict Canadian localization support required the entire unified global portal to natively support seamless language toggling between English and French.
+Meeting Canadian localization support required the entire unified global portal to natively support seamless language toggling between English and French.
 
 <br />
 
@@ -42,16 +42,16 @@ Guarantee a mobile-first responsive layout, seamless cross-browser rendering, an
 <br />
 
 ## My Approach & Implementation
-### 1. Architectural Standardization (Building the Design System)
+### 1. Building the Design System
 To permanently solve the client's visual inconsistency issues, I translated the new Figma designs into a programmatic design system. Using custom CSS variables and Foundation's configuration layer, I established locked-down design systems for the global brand.
 
 I wrote a highly disciplined suite of structural utility classes that enforced fixed spacings and precise typography hierarchies. This architectural approach ensured that any new block added to the site in the future would automatically inherit identical, flawless alignment and scale.
 
-### 2. Multi-lingual Routing & Canadian Localization
-Leveraging Liquid Markup, I built a dynamic routing matrix that successfully rendered the global site based on the user's localized path. The system dynamically updated user-facing interface text, accessible ARIA labels, and forms to match the active language choice (English or French) from a single code repository, avoiding the messy overhead of duplicating static page templates.
+### 2. Multi-lingual Routing
+Leveraging Liquid, I built a dynamic routing matrix that successfully rendered the global site based on the user's localized path. The system dynamically updated user-facing interface text, accessible ARIA labels, and forms to match the active language choice (English or French) from a single code repository, avoiding the messy overhead of duplicating static page templates.
 
 ### 3. Historical Data & Blog Migration
-I managed the technical intake of the legacy blog content streams. Because the historical entries contained styling and legacy formatting from the previous sites, I sanitized the imported markup and mapped the incoming assets to sync cleanly with the newly built global layout modules. This preserved years of cultural content while instantly up-leveling its performance and visual layout.
+I managed the technical intake of the legacy blog content streams. Because the historical entries contained styling and legacy formatting from the previous sites, I sanitized the imported markup and mapped the incoming assets to sync with the newly built global layout. This preserved years of cultural content while instantly up-leveling its performance and visual layout.
 
 <br />
 
