@@ -6,7 +6,7 @@
 <b>Role:</b>      UI Developer
 <b>Tools:</b>     Liquid Markup, HTML5, CSS3, JavaScript / jQuery, Foundation, Figma
 </pre>
-&nbsp;<strong><a href="https://jobs.telusdigital.com/">View project</a></strong>
+&nbsp;<strong><a href="https://www.cdwjobs.com/">View project</a></strong>
 
 <br />
 
