@@ -2,7 +2,7 @@
 <pre>
 <b>Project:</b>   CDW Global Careers
 <b>Role:</b>      UI Developer
-<b>Tools:</b>     Figma, Liquid, HTML5, CSS3, JavaScript / jQuery, Foundation
+<b>Tools:</b>     Figma, Liquid, HTML5, CSS3, JS/jQuery, Foundation
 </pre>
 &nbsp;<strong><a href="https://www.cdwjobs.com/">View project</a></strong>
 
