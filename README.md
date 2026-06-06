@@ -1,5 +1,3 @@
-<p><a href="https://www.cdwjobs.com/"><img src="https://doylesee.github.io/cdw-cws/thumbnail.jpg" /></a></p>
-
 ## Project Overview
 <pre>
 <b>Project:</b>   CDW Global Careers
@@ -8,6 +6,7 @@
 </pre>
 &nbsp;<strong><a href="https://www.cdwjobs.com/">View project</a></strong>
 
+<p><a href="https://www.cdwjobs.com/"><img src="https://doylesee.github.io/cdw-cws/thumbnail.jpg" /></a></p>
 <br />
 
 ## The Challenge
