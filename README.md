@@ -26,16 +26,16 @@ Meeting Canadian localization support required the entire unified global portal 
 <br />
 
 ## Core Objectives
-**Platform Consolidation**<br />
+🟠 **Platform Consolidation**<br />
 Unify regional career portals into a singular, cohesive global architecture while retaining targeted regional content.
 
-**Design System Implementation**<br />
+🟠 **Design System Implementation**<br />
 Establish a rigorous, code-enforced UI standard to eliminate design drift and ensure complete layout consistency across the site.
 
-**Data Migration & Asset Sync**<br />
+🟠 **Data Migration & Asset Sync**<br />
 Seamlessly ingest and re-theme legacy blog articles and creative media into the new content schema.
 
-**Production Standards**<br />
+🟠 **Production Standards**<br />
 Guarantee a mobile-first responsive layout, seamless cross-browser rendering, and strict accessibility compliance.
 
 <br />
@@ -55,16 +55,16 @@ I managed the technical intake of the legacy blog content streams. Because the h
 <br />
 
 ## Results & Impact
-**Successful Enterprise Consolidation**<br />
+✅ **Successful Enterprise Consolidation**<br />
 Successfully eliminated multi-site management by merging distinct regional sites into a singular, high-converting global talent portal.
 
-**Code-Enforced Brand Integrity**<br />
+✅ **Code-Enforced Brand Integrity**<br />
 Eradicated visual inconsistencies entirely, providing CDW with an ironclad frontend framework that guarantees identical layout proportions across every single page.
 
-**Zero-Loss Content Migration**<br />
+✅ **Zero-Loss Content Migration**<br />
 Flawlessly migrated and synced the entire historical blog pages, ensuring 100% data retention and layout compatibility on day one of the global launch.
 
-**Universal Accessibility**<br />
+✅ **Universal Accessibility**<br />
 Delivered a fully responsive, semantic, and highly optimized multi-lingual experience that satisfied strict global accessibility requirements.
 
 <br /><strong><a href="https://www.cdwjobs.com/" rel="noopener noreferrer">View project</a></strong>
