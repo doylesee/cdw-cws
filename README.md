@@ -1,8 +1,8 @@
 ## Project Overview
 <pre>
-<b>Project:</b>   CDW Global Careers
-<b>Role:</b>      UI Developer
-<b>Tools:</b>     Figma, Liquid, HTML5, CSS3, JS/jQuery, Foundation
+<b>Project:</b>  CDW Global Careers
+<b>Role:</b>     UI Developer
+<b>Tools:</b>    Figma, Liquid, HTML5, CSS3, JS/jQuery, Foundation
 </pre>
 &nbsp;<strong><a href="https://www.cdwjobs.com/">View project</a></strong>
 
@@ -67,4 +67,4 @@ Flawlessly migrated and synced the entire historical blog pages, ensuring 100% d
 **Universal Accessibility**<br />
 Delivered a fully responsive, semantic, and highly optimized multi-lingual experience that satisfied strict global accessibility requirements.
 
-<br /><strong><a href="https://www.cdwjobs.com/">View project</a></strong>
+<br /><strong><a href="https://www.cdwjobs.com/">View project</a></stron   
