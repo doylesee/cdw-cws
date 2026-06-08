@@ -4,9 +4,9 @@
 <b>Role:</b>     UI Developer
 <b>Tools:</b>    Figma, Liquid, HTML5, CSS3, JS/jQuery, Foundation
 </pre>
-&nbsp;<strong><a href="https://www.cdwjobs.com/">View project</a></strong>
+&nbsp;<strong><a href="https://www.cdwjobs.com/" rel="noopener noreferrer">View project</a></strong>
 
-<p><a href="https://www.cdwjobs.com/"><img src="https://doylesee.github.io/cdw-cws/thumbnail.jpg" /></a></p>
+<p><a href="https://www.cdwjobs.com/" rel="noopener noreferrer"><img src="https://doylesee.github.io/cdw-cws/thumbnail.jpg" /></a></p>
 <br />
 
 ## The Challenge
@@ -67,4 +67,4 @@ Flawlessly migrated and synced the entire historical blog pages, ensuring 100% d
 **Universal Accessibility**<br />
 Delivered a fully responsive, semantic, and highly optimized multi-lingual experience that satisfied strict global accessibility requirements.
 
-<br /><strong><a href="https://www.cdwjobs.com/">View project</a></stron   
+<br /><strong><a href="https://www.cdwjobs.com/" rel="noopener noreferrer">View project</a></strong>
