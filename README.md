@@ -13,6 +13,10 @@
 * [View Project](https://www.cdwjobs.com/)
 <br />
 
+<a href="https://www.cdwjobs.com">
+  <img src="screenshot.jpg" alt="" width="100%">
+</a>
+
 ## The Challenge
 CDW operated multiple separate regional career websites (including US and Canada divisions), resulting in a fragmented candidate experience, disjointed branding, and high administrative overhead. The primary objective of this project was to completely re-design and consolidate these isolated web platforms into a singular, high-performance Global Career Site.
 
