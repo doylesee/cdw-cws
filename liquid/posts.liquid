@@ -1,0 +1,145 @@
+{%- comment -%}
+██╗██╗██╗  ░██████╗████████╗░█████╗░██████╗░  ██╗██╗██╗
+██║██║██║  ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗  ██║██║██║
+██║██║██║  ╚█████╗░░░░██║░░░██║░░██║██████╔╝  ██║██║██║
+╚═╝╚═╝╚═╝  ░╚═══██╗░░░██║░░░██║░░██║██╔═══╝░  ╚═╝╚═╝╚═╝
+██╗██╗██╗  ██████╔╝░░░██║░░░╚█████╔╝██║░░░░░  ██╗██╗██╗
+╚═╝╚═╝╚═╝  ╚═════╝░░░░╚═╝░░░░╚════╝░╚═╝░░░░░  ╚═╝╚═╝╚═╝
+
+This code is intended for use and maintenance by authorized Talemetry CWS Developers only.
+If you are not part of the Talemetry CWS Development team, refrain from making any edits or modifications to the code.
+Unauthorized changes may result in functionality issues or unintended errors.
+
+For any updates, questions, or concerns, please contact your Account Manager for assistance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%- endcomment -%}
+{% include '__global__config__reusable-texts' %}
+{% include '/__global__config__variables' %}
+
+{% page_required_header %}
+
+<div class="page-content">
+    <section>
+        <div class="row">
+            <div class="columns medium-10 medium-offset-1 large-8 large-offset-2 end text-center">
+                <h1 class="show-for-sr">{{ text_header_nav_4 }}</h1>
+                {{ text_blog_list_copy }}
+            </div>
+        </div>
+
+        <div class="row same-height-parent-js">
+            {% if cb_current_locale_lower != 'en' %}
+                {% capture locale_tag %}locale-{{ cb_current_locale_lower }}{% endcapture %}
+            {% endif %}
+            {% capture show_post %}false{% endcapture %}
+
+            {% assign posts_counter = 0 %}
+
+            {% for post in employer.posts %}
+                {% capture show_post %}false{% endcapture %}
+
+                {% if locale_tag != blank and post.tag_list contains locale_tag %}{%- comment -%}current locale is not 'en' and post has 'locale-[current-locale]' tag{%- endcomment -%}
+                    {% capture show_post %}true{% endcapture %}
+                {% endif %}
+
+                {% if locale_tag == blank %}{%- comment -%}current locale is 'en'{%- endcomment -%}
+                    {% unless post.tag_list contains 'locale-' %}{%- comment -%}and post does not have 'locale-' tag{%- endcomment -%}
+                        {% capture show_post %}true{% endcapture %}
+                    {% endunless %}
+                {% endif %}
+
+                {% if show_post == 'true' %}
+                    {% assign posts_counter = posts_counter | plus: 1 %}
+
+                    <div class="columns medium-10 medium-offset-1 large-4 large-offset-0 end blogpost-item-outer-js{% if posts_counter > 9 %} hide{% endif %}">
+                        <div class="space-foundation">
+                            <div class="branded-card blogpost-item">
+                                <a href="/{{ current_locale.locale }}/posts/{{ post.permalink }}">
+                                    <div class="item-image background-1 the-creature">
+                                        {% if post.images.size > 0 %}
+                                            <img src="{{ post.images[0].url }}" alt="{% if post.images[0].title != post.images[0].file_name %}{{ post.images[0].title | html_safe }}{% endif %}" />
+                                        {% endif %}
+                                    </div>
+                                </a>
+                                <div class="item-copy padded-small">
+                                    <div class="padded-xsmall">
+                                        <div class="same-height-item-js space-small">
+                                            {{ post.tags | where: 'category-' | assign_to: 'post_category' }}
+                                            {% if post_category != blank %}
+                                                <div class="text-small space-small">{{ post_category[0] | remove: 'category-' | upcase }}</div>
+                                            {% endif %}
+
+                                            <h3><a href="/{{ current_locale.locale }}/posts/{{ post.permalink }}">{{ post.title | html_safe }}</a></h3>
+                                        </div>
+
+                                        <div class="text-small">
+                                            {{ post.tags | where: 'published-' | assign_to: 'post_published' }}
+                                            {% if post_published != blank %}
+                                                {% capture post_publish_date %}{{ post_published[0] | remove: 'published-' }}{% endcapture %}
+                                                {{ post_publish_date | date: '%-m.%d.%Y' }}
+                                            {% else %}
+                                                {{ post.created_at | date: '%-m.%d.%Y' }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-medium show-for-large"></div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="column text-center">
+                <div class="space-medium"></div>
+                <div class="space-medium"><a href="javascript:void(0);" class="branded-button-large" id="load-more-posts-js">Load More</a></div>
+                <div class="heading-6">Showing <span class="posts-count-js">9</span> articles of {{ posts_counter }}</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% page_required_footer %}
